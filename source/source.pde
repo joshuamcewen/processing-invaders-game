@@ -1,5 +1,5 @@
 /* 
-  Title: Coral Criminals
+  Title: Assignment
   Author: Joshua McEwen
   Date: January 2017
 */
@@ -7,6 +7,14 @@
 // Declare variables.
 PImage background;
 PFont fontMono;
+
+final int SPLASH = 0;
+final int PLAYING = 1;
+final int FINISH = 2;
+
+int state = SPLASH;
+
+boolean leftPressed, rightPressed;
 
 // Declare and initialise variables.
 int timer = 0;
@@ -36,19 +44,67 @@ void setup()
 void draw()
 {
   timer++;
-  
   resetBackground();
-  splashScreen();
+  
+  switch(state)
+  {
+    case SPLASH:
+      splashScreen();
+      break;
+    case PLAYING:
+      playScreen();
+      break;
+    default:
+      splashScreen();
+  }
 }
 
 // Handle key press events.
 void keyPressed()
 {
+  switch(state)
+  {
+    case SPLASH:
+      if(keyCode == ' ')
+      {
+        state = PLAYING;
+      }
+      break;
+    case PLAYING:
+      if(key == CODED)
+      {
+        if(keyCode == LEFT)
+        {
+          leftPressed = true;
+        }
+        else if(keyCode == RIGHT)
+        {
+          rightPressed = true;
+        }
+      }
+      break;
+  }
 }
 
 // Handle key release events.
 void keyReleased()
 {
+  switch(state)
+  {
+    case PLAYING:
+      if(key == CODED)
+      {
+        if(keyCode == LEFT)
+        {
+          leftPressed = false;
+        }
+        else if(keyCode == RIGHT)
+        {
+          rightPressed = false;
+        }
+      }
+      break;
+  }
 }
 
 // Handles the splash screen mechanics.
