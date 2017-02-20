@@ -42,11 +42,29 @@ public class Player
   // Create a new bullet instance.
   public void shoot()
   {
+    Bullets.add(new Bullet(x, y, 5, 10, -5));
   }
   
   // Call the move and render procedures, updating the player's position on screen.
   public void update()
   {
+    
+    for(int i = Bullets.size() - 1; i >= 0; i--)
+    {
+      Bullet b = Bullets.get(i);
+      
+      if(b.isVisible())
+      {
+        b.update();
+      }
+      else
+      {
+        Bullets.remove(i);
+      }
+    }
+    
+    println(Bullets);
+    
     move();
     render();
   }

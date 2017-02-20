@@ -19,6 +19,7 @@ boolean leftPressed, rightPressed;
 
 // Declare and initialise variables.
 int timer = 0;
+int levelPointer = 0;
 int splashSize = 15;
 
 ArrayList<Level> levels = new ArrayList<Level>();
@@ -84,6 +85,11 @@ void keyPressed()
           rightPressed = true;
         }
       }
+      
+      if(keyCode == ' ')
+      {
+        player.shoot();
+      }
       break;
   }
 }
@@ -138,8 +144,27 @@ void splashScreen()
 // Handles the level screen mechanics.
 void playScreen()
 {
-  textAlign(CORNER);
-  text("Play", 10, 20);
+  // Display level name.
+  textAlign(LEFT);
+  text("Level " + (levelPointer + 1), 10, 20);
+  
+  // Display player score.
+  textAlign(CENTER);
+  text("Score: " + player.returnScore(), width/2, 20);
+  
+  // Display player lives.
+  textAlign(RIGHT);
+  text("Lives: " + player.returnLives(), width - 10, 20);
+  
+  // Retrieve the current level object from the levels array.
+  Level currentLevel = levels.get(levelPointer);
+ 
+  // TODO - cumulative score instead of level score.
+  if(player.returnScore() >= (currentLevel.Rows * 9) && levelPointer < (levels.size() - 1))
+  {
+    levelPointer++;
+  }
+
   player.update();
 }
 
