@@ -86,9 +86,17 @@ void keyPressed()
         }
       }
       
-      if(keyCode == ' ')
+      // On spacebar, execute shoot method, creating a bullet instance.
+      if(key == ' ')
       {
         player.shoot();
+      }
+      
+      // Return to splash screen.
+      if(key == 'm')
+      {
+        state = SPLASH;
+        player.reset();
       }
       break;
   }
@@ -132,7 +140,7 @@ void splashScreen()
   textAlign(CENTER);
   
   textSize(30);
-  text("Game name", width/2, 150);
+  text("Assignment", width/2, 150);
   
   textSize(14);
   text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives.", width/2, height/2);

@@ -45,6 +45,12 @@ public class Player
     Bullets.add(new Bullet(x, y, 5, 10, -5));
   }
   
+  // Remove all instances of bullet.
+  public void reset()
+  {
+    Bullets.clear();
+  }
+  
   // Call the move and render procedures, updating the player's position on screen.
   public void update()
   {

@@ -31,7 +31,7 @@ public class Bullet
   
   public boolean isVisible()
   {
-    return (y > 0 && y < height);
+    return (y - (bHeight/2) > 0 && y + (bHeight/2) < height);
   }
   
   // Call the move and render procedures, updating the bullet's position on screen.
