@@ -20,11 +20,23 @@ public class Player
   // Render the player on screen.
   private void render()
   {
+    fill(255);
+    noStroke();
+    rectMode(CENTER);
+    rect(this.x, this.y, this.pWidth, this.pHeight);
   }
   
   // Change the position of the player.
   private void move()
   {
+    if(leftPressed && (x - pWidth/2) >= 5)
+    {
+      x -= 5;
+    }
+    else if(rightPressed && (x + pWidth/2) <= (width - 5))
+    {
+      x+= 5;
+    }
   }
   
   // Create a new bullet instance.

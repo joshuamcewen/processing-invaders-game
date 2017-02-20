@@ -7,6 +7,7 @@
 // Declare variables.
 PImage background;
 PFont fontMono;
+Player player;
 
 final int SPLASH = 0;
 final int PLAYING = 1;
@@ -21,7 +22,6 @@ int timer = 0;
 int splashSize = 15;
 
 ArrayList<Level> levels = new ArrayList<Level>();
-Player player = new Player(0,0,0,0);
 
 // Executed when the program is compiled.
 void setup()
@@ -33,6 +33,8 @@ void setup()
   
   size(500, 500);
   resetBackground();
+  
+  player = new Player(width/2, height - 50, 80,20);
   
   // Create levels for the game.
   levels.add(new Level(10));
@@ -136,7 +138,9 @@ void splashScreen()
 // Handles the level screen mechanics.
 void playScreen()
 {
-  text("Play", 10, 10);
+  textAlign(CORNER);
+  text("Play", 10, 20);
+  player.update();
 }
 
 // Handles the death screen mechanics.
