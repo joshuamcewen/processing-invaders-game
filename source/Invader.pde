@@ -2,7 +2,7 @@
 public class Invader
 {
   // Declare and initialise local class variables.
-  ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
+  //ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
   
   int x, y, iWidth, iHeight;
   
@@ -18,6 +18,8 @@ public class Invader
   // Render the invader on screen.
   private void render()
   {
+    fill(0, 255, 0);
+    rect(x, y, iWidth, iHeight);
   }
   
   // Change the position of the invader.

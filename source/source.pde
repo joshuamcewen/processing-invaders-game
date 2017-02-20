@@ -126,14 +126,15 @@ void keyReleased()
 // Handles the splash screen mechanics.
 void splashScreen()
 { 
+  // Every 500ms, alter the splash screen font 'pulse' effect.
   if(timer % 30 == 0)
   {
-    if(splashSize == 15)
+    if(splashSize == 16)
     {
-      splashSize = 14;
+      splashSize = 15;
     }
     else {
-      splashSize = 15;
+      splashSize = 16;
     }
   }
   
@@ -142,7 +143,7 @@ void splashScreen()
   textSize(30);
   text("Assignment", width/2, 150);
   
-  textSize(14);
+  textSize(15);
   text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives.", width/2, height/2);
   
   textSize(splashSize);
@@ -166,6 +167,7 @@ void playScreen()
   
   // Retrieve the current level object from the levels array.
   Level currentLevel = levels.get(levelPointer);
+  currentLevel.update();
  
   // TODO - cumulative score instead of level score.
   if(player.returnScore() >= (currentLevel.Rows * 9) && levelPointer < (levels.size() - 1))
