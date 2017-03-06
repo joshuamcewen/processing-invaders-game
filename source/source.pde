@@ -19,10 +19,13 @@ boolean leftPressed, rightPressed;
 
 // Declare and initialise variables.
 int timer = 0;
-int levelPointer = 0;
 int splashSize = 15;
 
 ArrayList<Level> levels = new ArrayList<Level>();
+
+// Keep track of the current level.
+Level currentLevel;
+int levelPointer = 0;
 
 // Executed when the program is compiled.
 void setup()
@@ -38,9 +41,9 @@ void setup()
   player = new Player(width/2, height - 50, 80,20);
   
   // Create levels for the game.
-  levels.add(new Level(10));
-  levels.add(new Level(5));
   levels.add(new Level(2));
+  levels.add(new Level(5));
+  levels.add(new Level(10));
 }
 
 // Executed 60 times per second.
@@ -71,6 +74,8 @@ void keyPressed()
       if(keyCode == ' ')
       {
         state = PLAYING;
+        // Set the first level to match the first level element.
+        currentLevel = levels.get(0);
       }
       break;
     case PLAYING:
@@ -166,13 +171,13 @@ void playScreen()
   text("Lives: " + player.returnLives(), width - 10, 20);
   
   // Retrieve the current level object from the levels array.
-  Level currentLevel = levels.get(levelPointer);
   currentLevel.update();
  
   // TODO - cumulative score instead of level score.
-  if(player.returnScore() >= (currentLevel.Rows * 9) && levelPointer < (levels.size() - 1))
+  if(currentLevel.isComplete())
   {
     levelPointer++;
+    currentLevel = levels.get(levelPointer);
   }
 
   player.update();

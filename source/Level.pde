@@ -4,22 +4,38 @@ public class Level
   // Declare and initialise local class variables.
   ArrayList<Invader> Invaders = new ArrayList<Invader>();
   
-  int Rows;
+  int rows;
   int enemiesPerRow = 9;
   boolean Rendered = false;
   
   // Executed when a new Levels object is created.
-  Level(int Rows)
+  Level(int rows)
   {
-    this.Rows = Rows;
+    this.rows = rows;
     spawnInvaders();
   }
   
   // Procedure to populate Invaders ArrayList.
   public void spawnInvaders()
   {
-    Invaders.add(new Invader(100, 100, 22, 10));
-    Invaders.add(new Invader(150, 100, 50, 10));
+    // Set initial values for the X and Y positions of the invaders.
+    int x = 50;
+    int y = 60;
+    
+    // For each row, execute the contents of the loop.
+    for(int i = 0; i < rows; i++)
+    {
+      // Based on the number of enemies per row, create an invader.
+      for(int j = 0; j < enemiesPerRow; j++)
+      {
+        Invaders.add(new Invader(x, y, 28, 28));
+        x += 50;
+      }
+      
+      x = 50;
+      y+= 50;
+
+    }
   }
   
   // Check if the level has been completed and return a t/f value.
