@@ -43,9 +43,6 @@ void setup()
   // Create levels for the game.
   levels.add(new Level(2));
   levels.add(new Level(3));
-  levels.add(new Level(4));
-  levels.add(new Level(5));
-  levels.add(new Level(6));
 }
 
 // Executed 60 times per second.
@@ -61,6 +58,9 @@ void draw()
       break;
     case PLAYING:
       playScreen();
+      break;
+    case FINISH:
+      completeScreen();
       break;
     default:
       splashScreen();
@@ -177,10 +177,16 @@ void playScreen()
  
   // If the isComplete() level method returns true (no invaders left) then
   // increase the level pointer and alter the currentLevel reference to that of the next.
-  if(currentLevel.isComplete())
+  println("Levels " + levels.size());
+  println("Pointer " + levelPointer);
+  if(currentLevel.isComplete() && levels.size() > (levelPointer + 1))
   {
     levelPointer++;
     currentLevel = levels.get(levelPointer);
+  }
+  else if (currentLevel.isComplete())
+  {
+    state = FINISH;
   }
 
   player.update();
