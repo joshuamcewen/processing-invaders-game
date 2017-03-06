@@ -4,15 +4,16 @@ public class Level
   // Declare and initialise local class variables.
   ArrayList<Invader> Invaders = new ArrayList<Invader>();
   
-  int rows;
+  int rows, ySpeed;
   int enemiesPerRow = 9;
   boolean Rendered = false;
-  int timer = 0;
   
   // Executed when a new Levels object is created.
-  Level(int rows)
+  Level(int rows, int ySpeed)
   {
     this.rows = rows;
+    this.ySpeed = ySpeed;
+    
     spawnInvaders();
   }
   
@@ -29,7 +30,7 @@ public class Level
       // Based on the number of enemies per row, create an invader.
       for(int j = 0; j < enemiesPerRow; j++)
       {
-        Invaders.add(new Invader(x, y, 28, 28));
+        Invaders.add(new Invader(x, y, 28, 28, ySpeed));
         x += 50;
       }
       
@@ -66,10 +67,7 @@ public class Level
   }
   
   public void update()
-  {
-    // Timer for individual level is incremented.
-    this.timer++;
-    
+  { 
     // Call the update method for each individual Invader.
     for(Invader v : Invaders)
     {

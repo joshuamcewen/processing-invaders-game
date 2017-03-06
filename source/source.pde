@@ -41,8 +41,9 @@ void setup()
   player = new Player(width/2, height - 50, 80,20);
   
   // Create levels for the game.
-  levels.add(new Level(2));
-  levels.add(new Level(3));
+  // Level(rows, ySpeed)
+  levels.add(new Level(2, 360));
+  levels.add(new Level(3, 180));
 }
 
 // Executed 60 times per second.
@@ -177,8 +178,6 @@ void playScreen()
  
   // If the isComplete() level method returns true (no invaders left) then
   // increase the level pointer and alter the currentLevel reference to that of the next.
-  println("Levels " + levels.size());
-  println("Pointer " + levelPointer);
   if(currentLevel.isComplete() && levels.size() > (levelPointer + 1))
   {
     levelPointer++;
@@ -195,12 +194,14 @@ void playScreen()
 // Handles the death screen mechanics.
 void deathScreen()
 {
+  textAlign(LEFT);
   text("Died", 10, 10);
 }
 
 // Handles the game completion screen mechanics.
 void completeScreen()
 {
+  textAlign(LEFT);
   text("Complete", 10, 10);
 }
 

@@ -2,8 +2,8 @@
 public class InvaderAssault extends Invader
 {
   // Executed when a new InvaderAssault object is created.
-  InvaderAssault(int x, int y, int iWidth, int iHeight)
+  InvaderAssault(int x, int y, int iWidth, int iHeight, int ySpeed)
   {
-    super(x, y, iWidth, iHeight);
+    super(x, y, iWidth, iHeight, ySpeed);
   }
 }
