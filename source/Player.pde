@@ -51,10 +51,8 @@ public class Player
     Bullets.clear();
   }
   
-  // Call the move and render procedures, updating the player's position on screen.
-  public void update()
+  private void updateBullets()
   {
-    
     for(int i = Bullets.size() - 1; i >= 0; i--)
     {
       Bullet b = Bullets.get(i);
@@ -68,8 +66,38 @@ public class Player
         Bullets.remove(i);
       }
     }
+  }
+  
+  private void updateInvaders()
+  {
+    ArrayList<Invader> Invaders = currentLevel.returnInvaders();
     
-    println(Bullets);
+    for(int i = Bullets.size() - 1; i >= 0; i--)
+    {
+      Bullet b = Bullets.get(i);
+      
+      for(int j = Invaders.size() - 1; j >= 0; j--)
+      {
+        Invader v = Invaders.get(j);
+        
+        if(b.y >= (v.y - (v.iHeight/2)) && b.y <= (v.y + (v.iHeight/2)) && b.x >= (v.x - (v.iWidth/2)) && b.x <= (v.x + (v.iWidth/2)))
+        {
+          Invaders.remove(j);
+          Bullets.remove(i);
+          score++;
+        }
+      }
+    }
+    
+    currentLevel.setInvaders(Invaders);
+  }
+  
+  // Call the move and render procedures, updating the player's position on screen.
+  public void update()
+  {
+    
+    updateBullets();
+    updateInvaders();
     
     move();
     render();

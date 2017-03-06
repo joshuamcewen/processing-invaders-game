@@ -42,8 +42,10 @@ void setup()
   
   // Create levels for the game.
   levels.add(new Level(2));
+  levels.add(new Level(3));
+  levels.add(new Level(4));
   levels.add(new Level(5));
-  levels.add(new Level(10));
+  levels.add(new Level(6));
 }
 
 // Executed 60 times per second.
@@ -173,7 +175,8 @@ void playScreen()
   // Retrieve the current level object from the levels array.
   currentLevel.update();
  
-  // TODO - cumulative score instead of level score.
+  // If the isComplete() level method returns true (no invaders left) then
+  // increase the level pointer and alter the currentLevel reference to that of the next.
   if(currentLevel.isComplete())
   {
     levelPointer++;

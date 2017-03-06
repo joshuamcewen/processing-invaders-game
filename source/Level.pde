@@ -7,6 +7,7 @@ public class Level
   int rows;
   int enemiesPerRow = 9;
   boolean Rendered = false;
+  int timer = 0;
   
   // Executed when a new Levels object is created.
   Level(int rows)
@@ -38,10 +39,9 @@ public class Level
     }
   }
   
-  // Check if the level has been completed and return a t/f value.
-  public boolean isComplete()
+  public boolean returnRendered()
   {
-    return(Invaders.size() == 0 ? true : false);
+    return Rendered;
   }
   
   public void changeState()
@@ -49,13 +49,28 @@ public class Level
     Rendered = (Rendered ? false : true);
   }
   
-  public boolean returnRendered()
+  public ArrayList returnInvaders()
   {
-    return Rendered;
+    return Invaders;
+  }
+  
+  public void setInvaders(ArrayList Invaders)
+  {
+    this.Invaders = Invaders;
+  }
+  
+  // Check if the level has been completed and return a t/f value.
+  public boolean isComplete()
+  {
+    return(Invaders.size() == 0 ? true : false);
   }
   
   public void update()
   {
+    // Timer for individual level is incremented.
+    this.timer++;
+    
+    // Call the update method for each individual Invader.
     for(Invader v : Invaders)
     {
       v.update();
