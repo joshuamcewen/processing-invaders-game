@@ -5,7 +5,7 @@ public class Level
   ArrayList<Invader> Invaders = new ArrayList<Invader>();
   
   int rows, ySpeed;
-  int enemiesPerRow = 9;
+  int enemiesPerRow = 8;
   boolean Rendered = false;
   
   // Executed when a new Levels object is created.
@@ -21,7 +21,7 @@ public class Level
   public void spawnInvaders()
   {
     // Set initial values for the X and Y positions of the invaders.
-    int x = 50;
+    int x = 80;
     int y = 60;
     
     // For each row, execute the contents of the loop.
@@ -32,17 +32,17 @@ public class Level
       {
         if(j % 2 == 0) 
         {
-          Invaders.add(new InvaderHeavy(x, y, 28, 28, ySpeed));
+          Invaders.add(new InvaderAssault(x, y, 35, 35, ySpeed));
         }
         else
         {
-          Invaders.add(new InvaderAssault(x, y, 28, 28, ySpeed));
+          Invaders.add(new InvaderSniper(x, y, 35, 35, ySpeed));
         }
         
         x += 50;
       }
       
-      x = 50;
+      x = 80;
       y+= 50;
 
     }

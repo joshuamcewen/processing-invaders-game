@@ -1,6 +1,7 @@
 // Bullet handling class
 public class Bullet
 {
+  PImage bulletSprite;
   // Declare local class variables.
   int x, y, bWidth, bHeight;
   float velocity;
@@ -13,14 +14,16 @@ public class Bullet
     this.bWidth = bWidth;
     this.bHeight = bHeight;
     this.velocity = velocity;
+    
+    bulletSprite = loadImage("assets/images/bubble.png");
+    bulletSprite.resize(bWidth, bHeight);
   }
   
   // Render the bullet on screen.
   private void render()
   {
-    rectMode(CENTER);
-    fill(255, 0, 0);
-    rect(x, y, bWidth, bHeight);
+    imageMode(CENTER);
+    image(bulletSprite, this.x, this.y);
   }
   
   // Change the position of the bullet based on its velocity.

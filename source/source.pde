@@ -38,7 +38,7 @@ void setup()
   size(500, 500);
   resetBackground();
   
-  player = new Player(width/2, height - 50, 80,20);
+  player = new Player(width/2, height - 50, 60,60);
   
   // Create levels for the game.
   // Level(rows, ySpeed)
@@ -162,6 +162,7 @@ void splashScreen()
 // Handles the level screen mechanics.
 void playScreen()
 {
+  fill(255);
   // Display level name.
   textAlign(LEFT);
   text("Level " + (levelPointer + 1), 10, 20);
@@ -195,6 +196,7 @@ void playScreen()
 // Handles the death screen mechanics.
 void deathScreen()
 {
+  fill(255);
   textAlign(LEFT);
   text("Died", 10, 10);
 }
@@ -202,6 +204,7 @@ void deathScreen()
 // Handles the game completion screen mechanics.
 void completeScreen()
 {
+  fill(255);
   textAlign(LEFT);
   text("Complete", 10, 10);
 }

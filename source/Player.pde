@@ -1,6 +1,9 @@
 // Class to handle the player
 public class Player
 {
+  // Declare images
+  PImage current, spriteShoot, spriteLeft, spriteRight;
+  
   // Declare and initialise local class variables.
   ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
   
@@ -15,15 +18,25 @@ public class Player
     this.y = y;
     this.pWidth = pWidth;
     this.pHeight = pHeight;
+    
+    spriteShoot = loadImage("assets/images/player-shoot.png");
+    spriteShoot.resize(pWidth, pHeight);
+    
+    spriteLeft = loadImage("assets/images/player-left.png");
+    spriteLeft.resize(pWidth, pHeight);
+    
+    spriteRight = loadImage("assets/images/player-right.png");
+    spriteRight.resize(pWidth, pHeight);
+    
+    current = spriteShoot;
   }
   
   // Render the player on screen.
   private void render()
   {
-    fill(255);
     noStroke();
-    rectMode(CENTER);
-    rect(this.x, this.y, this.pWidth, this.pHeight);
+    imageMode(CENTER);
+    image(current, this.x, this.y);
   }
   
   // Change the position of the player.
@@ -31,10 +44,12 @@ public class Player
   {
     if(leftPressed && (x - pWidth/2) >= 5)
     {
+      current = spriteLeft;
       x -= 5;
     }
     else if(rightPressed && (x + pWidth/2) <= (width - 5))
     {
+      current = spriteRight;
       x+= 5;
     }
   }
@@ -42,7 +57,8 @@ public class Player
   // Create a new bullet instance.
   public void shoot()
   {
-    Bullets.add(new Bullet(x, y, 5, 10, -5));
+    current = spriteShoot;
+    Bullets.add(new Bullet(x, y - (pHeight/2), 15, 15, -5));
   }
   
   // Remove all instances of bullet.
@@ -113,5 +129,25 @@ public class Player
   public int returnLives()
   {
     return lives;
+  }
+  
+  public int returnPosX()
+  {
+    return x;
+  }
+  
+   public int returnPosY()
+  {
+    return y;
+  }
+  
+  public int returnWidth()
+  {
+    return pWidth;
+  }
+  
+  public int returnHeight()
+  {
+    return pHeight;
   }
 }

@@ -2,7 +2,7 @@
 public class Invader
 {
   // Declare and initialise local class variables.
-  //ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
+  ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
   
   int x, defaultX, y, iWidth, iHeight, ySpeed;
   
@@ -62,13 +62,42 @@ public class Invader
   // Create a new bullet instance.
   public void shoot()
   {
+      Bullets.add(new Bullet(x, y + (iHeight/2), 15, 15, 5));
+  }
+  
+  private void updateBullets()
+  {
+    for(int i = Bullets.size() - 1; i >= 0; i--)
+    {
+      Bullet b = Bullets.get(i);
+      
+      if(b.y >= (player.returnPosY() - (player.returnHeight()/2)) && b.y <= (player.returnPosY() + (player.returnHeight()/2)) && b.x >= (player.returnPosX() - (player.returnWidth()/2)) && b.x <= (player.returnPosX() + (player.returnWidth()/2)))
+      {
+        player.lives--;
+        Bullets.remove(i);
+      }
+      if(b.isVisible())
+      {
+        b.update();
+      }
+      else
+      {
+        Bullets.remove(i);
+      }
+    }
   }
   
   // Call the move and render procedures, updating the invader's position on screen.
   public void update()
   {
+    if(random(100) < 0.25)
+    {
+      shoot();
+    }
+    
     // Timer incremented unambiguously (milliseconds).
     this.timer++;
+    updateBullets();
     
     move();
     render();
