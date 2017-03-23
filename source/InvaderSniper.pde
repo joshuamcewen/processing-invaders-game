@@ -6,4 +6,11 @@ public class InvaderSniper extends Invader
   {
     super(x, y, iWidth, iHeight, ySpeed);
   }
+ 
+  @Override
+  protected void render()
+  {
+    fill(0, 0, 255);
+    rect(x, y, iWidth, iHeight);
+  }
 }

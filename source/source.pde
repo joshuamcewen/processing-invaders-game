@@ -44,6 +44,7 @@ void setup()
   // Level(rows, ySpeed)
   levels.add(new Level(2, 360));
   levels.add(new Level(3, 180));
+  levels.add(new Level(4, 150));
 }
 
 // Executed 60 times per second.

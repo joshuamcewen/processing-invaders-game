@@ -26,14 +26,14 @@ public class Invader
   }
   
   // Render the invader on screen.
-  private void render()
+  protected void render()
   {
     fill(0, 255, 0);
     rect(x, y, iWidth, iHeight);
   }
   
   // Change the position of the invader.
-  private void move()
+  protected void move()
   {
     if(direction == LEFT)
     {

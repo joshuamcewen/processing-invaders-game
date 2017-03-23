@@ -30,7 +30,15 @@ public class Level
       // Based on the number of enemies per row, create an invader.
       for(int j = 0; j < enemiesPerRow; j++)
       {
-        Invaders.add(new Invader(x, y, 28, 28, ySpeed));
+        if(j % 2 == 0) 
+        {
+          Invaders.add(new InvaderHeavy(x, y, 28, 28, ySpeed));
+        }
+        else
+        {
+          Invaders.add(new InvaderAssault(x, y, 28, 28, ySpeed));
+        }
+        
         x += 50;
       }
       

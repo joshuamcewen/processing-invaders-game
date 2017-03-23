@@ -6,4 +6,11 @@ public class InvaderAssault extends Invader
   {
     super(x, y, iWidth, iHeight, ySpeed);
   }
+  
+  @Override
+  protected void render()
+  {
+    fill(255, 122, 0);
+    rect(x, y, iWidth, iHeight);
+  }
 }
