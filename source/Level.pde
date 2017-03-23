@@ -97,6 +97,7 @@ public class Level
           if(Invaders[c][r].isVisible() && b.y >= (Invaders[c][r].returnPosY() - (Invaders[c][r].returnHeight()/2)) && b.y <= (Invaders[c][r].returnPosY() + (Invaders[c][r].returnHeight()/2)) && b.x >= (Invaders[c][r].returnPosX() - (Invaders[c][r].returnWidth()/2)) && b.x <= (Invaders[c][r].returnPosX() + (Invaders[c][r].returnWidth()/2)))
           {
             Invaders[c][r].setVisible(false);
+            Invaders[c][r].explode();
             Bullets.remove(i);
             player.incrementScore();
           }
@@ -113,6 +114,10 @@ public class Level
       for(int c = 0; c < columns; c++)
       {
         Invaders[c][r].update();
+        if(Invaders[c][r].returnPosY() >= height - 50)
+        {
+          state = DEAD;
+        }
       }
     }
     

@@ -4,6 +4,10 @@ public class Invader
   // Declare and initialise local class variables.
   ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
   
+  // On death
+  Explosion deathExplosion;
+  boolean explosionVisible = false;
+  
   int x, defaultX, y, iWidth, iHeight, ySpeed;
   
   // Timer for movement initialised.
@@ -89,6 +93,12 @@ public class Invader
     }
   }
   
+  public void explode()
+  {
+    explosionVisible = true;
+    deathExplosion = new Explosion(x, y, iWidth, iHeight, 20);
+  }
+  
   public boolean isVisible()
   {
     return visible;
@@ -113,7 +123,12 @@ public class Invader
      this.timer++;
      move();
      render(); 
-    }
+   }
+   
+   if(explosionVisible) 
+   {
+     deathExplosion.update();
+   }
     
     updateBullets();
   }

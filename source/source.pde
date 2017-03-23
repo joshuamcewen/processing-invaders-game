@@ -11,7 +11,8 @@ Player player;
 
 final int SPLASH = 0;
 final int PLAYING = 1;
-final int FINISH = 2;
+final int DEAD = 2;
+final int FINISH = 3;
 
 int state = SPLASH;
 
@@ -60,6 +61,9 @@ void draw()
       break;
     case PLAYING:
       playScreen();
+      break;
+    case DEAD:
+      deathScreen();
       break;
     case FINISH:
       completeScreen();
@@ -178,7 +182,7 @@ void playScreen()
   // Is the player dead?
   if(player.returnLives() <= 0)
   {
-    state = FINISH;
+    state = DEAD;
   }
   
   // Retrieve the current level object from the levels array.
