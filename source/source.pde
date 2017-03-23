@@ -38,7 +38,7 @@ void setup()
   size(500, 500);
   resetBackground();
   
-  player = new Player(width/2, height - 50, 60,60);
+  player = new Player(width/2, height - 50, 60, 60);
   
   // Create levels for the game.
   // Level(rows, ySpeed)
@@ -175,6 +175,12 @@ void playScreen()
   textAlign(RIGHT);
   text("Lives: " + player.returnLives(), width - 10, 20);
   
+  // Is the player dead?
+  if(player.returnLives() <= 0)
+  {
+    state = FINISH;
+  }
+  
   // Retrieve the current level object from the levels array.
   currentLevel.update();
  
@@ -198,7 +204,7 @@ void deathScreen()
 {
   fill(255);
   textAlign(LEFT);
-  text("Died", 10, 10);
+  text("Died", 10, 20);
 }
 
 // Handles the game completion screen mechanics.
@@ -206,7 +212,7 @@ void completeScreen()
 {
   fill(255);
   textAlign(LEFT);
-  text("Complete", 10, 10);
+  text("Complete", 10, 20);
 }
 
 // Resets the background, removing old positioning.

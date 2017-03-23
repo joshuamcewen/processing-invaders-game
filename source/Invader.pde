@@ -15,6 +15,8 @@ public class Invader
   
   int direction = LEFT;
   
+  boolean visible = true;
+  
   // Executed when a new Invader object is created.
   Invader(int x, int y, int iWidth, int iHeight, int ySpeed)
   {
@@ -73,7 +75,7 @@ public class Invader
       
       if(b.y >= (player.returnPosY() - (player.returnHeight()/2)) && b.y <= (player.returnPosY() + (player.returnHeight()/2)) && b.x >= (player.returnPosX() - (player.returnWidth()/2)) && b.x <= (player.returnPosX() + (player.returnWidth()/2)))
       {
-        player.lives--;
+        player.decrementLives();
         Bullets.remove(i);
       }
       if(b.isVisible())
@@ -87,19 +89,52 @@ public class Invader
     }
   }
   
+  public boolean isVisible()
+  {
+    return visible;
+  }
+  
+  public void setVisible(boolean visible)
+  {
+    this.visible = visible;
+  }
+  
   // Call the move and render procedures, updating the invader's position on screen.
   public void update()
-  {
-    if(random(100) < 0.25)
+  { 
+    if(isVisible())
     {
-      shoot();
+     if(random(100) < 0.25)
+     {
+       shoot();
+     }
+    
+     // Timer incremented unambiguously (milliseconds).
+     this.timer++;
+     move();
+     render(); 
     }
     
-    // Timer incremented unambiguously (milliseconds).
-    this.timer++;
     updateBullets();
-    
-    move();
-    render();
+  }
+  
+  public int returnPosX()
+  {
+    return x;
+  }
+  
+  public int returnPosY()
+  {
+    return y;
+  }
+  
+  public int returnWidth()
+  {
+    return iWidth;
+  }
+  
+  public int returnHeight()
+  {
+    return iHeight;
   }
 }
