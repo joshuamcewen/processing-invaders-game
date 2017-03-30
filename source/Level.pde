@@ -40,6 +40,12 @@ public class Level
     }
   }
   
+  public void reset()
+  {
+    // Maybe add some other reset behaviour...
+    this.spawnInvaders();
+  }
+  
   public boolean returnRendered()
   {
     return Rendered;

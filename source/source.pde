@@ -28,6 +28,9 @@ ArrayList<Level> levels = new ArrayList<Level>();
 Level currentLevel;
 int levelPointer = 0;
 
+//Track hiscore.
+int hiScore = 0;
+
 // Executed when the program is compiled.
 void setup()
 {
@@ -46,6 +49,7 @@ void setup()
   levels.add(new Level(2, 360));
   levels.add(new Level(3, 180));
   levels.add(new Level(4, 150));
+  levels.add(new Level(4, 100));
 }
 
 // Executed 60 times per second.
@@ -108,8 +112,14 @@ void keyPressed()
       // Return to splash screen.
       if(key == 'm')
       {
-        state = SPLASH;
-        player.reset();
+        resetGame();
+      }
+      break;
+    case DEAD:
+    case FINISH:
+      if(key == 'c' || key == 'C')
+      {
+        resetGame();
       }
       break;
   }
@@ -175,6 +185,10 @@ void playScreen()
   textAlign(CENTER);
   text("Score: " + player.returnScore(), width/2, 20);
   
+  // Display hiscore.
+  textAlign(CENTER);
+  text("HiScore: " + hiScore, width/2, 40);
+  
   // Display player lives.
   textAlign(RIGHT);
   text("Lives: " + player.returnLives(), width - 10, 20);
@@ -196,7 +210,7 @@ void playScreen()
     currentLevel = levels.get(levelPointer);
   }
   else if (currentLevel.isComplete())
-  {
+  {   
     state = FINISH;
   }
 
@@ -209,14 +223,38 @@ void deathScreen()
   fill(255);
   textAlign(LEFT);
   text("Died", 10, 20);
+  
+  textSize(20);
+  textAlign(CENTER);
+  text("Your score: " + player.returnScore(), width/2, height/2);
+  
+  textSize(14);
+  text("Press 'C' to go back to the splash screen.", width/2, (height/2 + 40));
 }
 
 // Handles the game completion screen mechanics.
 void completeScreen()
 {
   fill(255);
+  textSize(14);
   textAlign(LEFT);
   text("Complete", 10, 20);
+  
+  textSize(20);
+  textAlign(CENTER);
+  if(player.returnScore() > hiScore)
+  {
+    textAlign(CENTER);
+    text("New Hi-Score: " + hiScore, width/2, height/2);
+    hiScore = player.returnScore();
+  }
+  else
+  {
+    text("Your score: " + hiScore, width/2, height/2);
+  }
+  
+  textSize(14);
+  text("Press 'C' to go back to the splash screen.", width/2, (height/2 + 40));
 }
 
 // Resets the background, removing old positioning.
@@ -225,4 +263,21 @@ void resetBackground()
   clear();
   imageMode(CORNER);
   image(background, 0, 0);
+}
+
+void resetGame()
+{
+  // Reset the player's score and lives.
+  player.reset();
+  leftPressed = rightPressed = false;
+  
+  // Reset the state of each level.
+  for(Level l : levels)
+  {
+    l.reset();
+  }
+ 
+  // Set the level pointer to 0.
+  levelPointer = 0;
+  state = SPLASH;
 }

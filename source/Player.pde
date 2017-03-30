@@ -65,6 +65,8 @@ public class Player
   public void reset()
   {
     Bullets.clear();
+    this.score = 0;
+    this.lives = 5;
   }
   
   private void updateBullets()
