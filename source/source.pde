@@ -6,6 +6,7 @@
 
 // Declare variables.
 PImage background;
+int firstBackgroundY, secondBackgroundY;
 PFont fontMono;
 Player player;
 
@@ -35,6 +36,8 @@ int hiScore = 0;
 void setup()
 {
   // Canvas configuration
+  firstBackgroundY = 0;
+  secondBackgroundY = -500;
   background = loadImage("assets/images/background.png");
   fontMono = createFont("assets/fonts/mono.ttf", 30);
   textFont(fontMono);
@@ -164,7 +167,7 @@ void splashScreen()
   textAlign(CENTER);
   
   textSize(30);
-  text("Assignment", width/2, 150);
+  text("Sea Hawks", width/2, 150);
   
   textSize(15);
   text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives.", width/2, height/2);
@@ -262,7 +265,11 @@ void resetBackground()
 {
   clear();
   imageMode(CORNER);
-  image(background, 0, 0);
+  image(background, 0, firstBackgroundY);
+  image(background, 0, secondBackgroundY);
+  
+  firstBackgroundY = (firstBackgroundY < height ? firstBackgroundY + 1 : 0);
+  secondBackgroundY = (secondBackgroundY < 0 ? secondBackgroundY + 1 : -500);
 }
 
 void resetGame()
