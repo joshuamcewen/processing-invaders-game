@@ -2,7 +2,8 @@
 public class Player
 {
   // Declare images
-  PImage current, spriteShoot, spriteLeft, spriteRight;
+  PImage[] sprites;
+  int spritePointer;
   
   // Declare and initialise local class variables.
   ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
@@ -10,6 +11,9 @@ public class Player
   int x, y, pWidth, pHeight;
   int score = 0;
   int lives = 5;
+  
+  // Timer for movement initialised.
+  int timer = 0;
   
   // Executed when a new Player object is created.
   Player(int x, int y, int pWidth, int pHeight)
@@ -19,16 +23,19 @@ public class Player
     this.pWidth = pWidth;
     this.pHeight = pHeight;
     
-    spriteShoot = loadImage("assets/images/player-shoot.png");
-    spriteShoot.resize(pWidth, pHeight);
+    this.sprites = new PImage[5];
+    sprites[0] = loadImage("assets/images/player-1.png");
+    sprites[1] = loadImage("assets/images/player-2.png");
+    sprites[2] = loadImage("assets/images/player-3.png");
+    sprites[3] = loadImage("assets/images/player-4.png");
+    sprites[4] = loadImage("assets/images/player-5.png");
     
-    spriteLeft = loadImage("assets/images/player-left.png");
-    spriteLeft.resize(pWidth, pHeight);
+    for(int i = 0; i < sprites.length; i++)
+    {
+      sprites[i].resize(pWidth, pHeight);
+    }
     
-    spriteRight = loadImage("assets/images/player-right.png");
-    spriteRight.resize(pWidth, pHeight);
-    
-    current = spriteShoot;
+    spritePointer = 0;
   }
   
   // Render the player on screen.
@@ -36,7 +43,13 @@ public class Player
   {
     noStroke();
     imageMode(CENTER);
-    image(current, this.x, this.y);
+    image(sprites[spritePointer], this.x, this.y);
+    
+    // Every 10 frames...
+    if(timer % 10 == 0) 
+    {
+      spritePointer = (spritePointer < sprites.length - 2 ? spritePointer + 1 : 0);
+    }
   }
   
   // Change the position of the player.
@@ -44,12 +57,10 @@ public class Player
   {
     if(leftPressed && (x - pWidth/2) >= 5)
     {
-      current = spriteLeft;
       x -= 5;
     }
     else if(rightPressed && (x + pWidth/2) <= (width - 5))
     {
-      current = spriteRight;
       x+= 5;
     }
   }
@@ -57,7 +68,6 @@ public class Player
   // Create a new bullet instance.
   public void shoot()
   {
-    current = spriteShoot;
     Bullets.add(new Bullet(x, y - (pHeight/2), 15, 15, -5));
   }
   
@@ -92,6 +102,8 @@ public class Player
     
     updateBullets();
     
+    // Timer incremented unambiguously (milliseconds).
+    this.timer++;
     move();
     render();
   }
