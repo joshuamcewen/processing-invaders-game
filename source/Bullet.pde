@@ -15,7 +15,7 @@ public class Bullet
     this.bHeight = bHeight;
     this.velocity = velocity;
     
-    bulletSprite = loadImage("assets/images/bubble.png");
+    bulletSprite = (velocity > 0 ? loadImage("assets/images/bullet-down.png") : loadImage("assets/images/bullet-up.png"));
     bulletSprite.resize(bWidth, bHeight);
   }
   

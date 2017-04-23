@@ -183,13 +183,18 @@ void splashScreen()
     }
   }
   
-  textAlign(CENTER);
+  textAlign(LEFT);
+  fill(255, 255, 102);
+  textSize(splashSize);
+  text("HiScore: " + hiScore, 15, 30);
   
+  textAlign(CENTER);
+  fill(255);
   textSize(30);
   text("Sea Hawks", width/2, 100);
   
   textSize(15);
-  text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives.", width/2, height/2 - 75);
+  text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives. Use ← → ↑ ↓ to move.", width/2, height/2 - 75);
   
   fill(178, 255, 102);
   textSize(splashSize);
@@ -238,6 +243,7 @@ void playScreen()
   // Is the player dead?
   if(player.returnLives() <= 0)
   {
+    setHiscore(player.returnScore());
     state = DEAD;
   }
   
@@ -253,15 +259,30 @@ void playScreen()
   }
   else if (currentLevel.isComplete())
   {   
+    setHiscore(player.returnScore());
     state = FINISH;
   }
 
   player.update();
 }
 
+void setHiscore(int playerScore)
+{
+  if(playerScore > hiScore)
+  {
+    hiScore = player.returnScore();
+  }
+}
+
 // Handles the death screen mechanics.
 void deathScreen()
 { 
+  
+  textAlign(LEFT);
+  fill(255, 255, 102);
+  textSize(splashSize);
+  text("HiScore: " + hiScore, 15, 30);
+  
   imageMode(CENTER);
   image(deathImage, width/2, 120);
   
@@ -280,6 +301,11 @@ void deathScreen()
 void completeScreen()
 {
   
+  textAlign(LEFT);
+  fill(255, 255, 102);
+  textSize(splashSize);
+  text("HiScore: " + hiScore, 15, 30);
+  
   imageMode(CENTER);
   image(completeImage, width/2, 120);
   
@@ -288,16 +314,7 @@ void completeScreen()
   textSize(20);
   
   text("You completed the game!", width/2, height/2 - 40);
-  
-  if(player.returnScore() > hiScore)
-  {
-    text("New Hi-Score: " + hiScore, width/2, height/2);
-    hiScore = player.returnScore();
-  }
-  else
-  {
-    text("Your score: " + hiScore, width/2, height/2);
-  }
+  text("Your score: " + player.returnScore(), width/2, height/2);
   
   textSize(14);
   text("Press 'C' to go back to the splash screen.", width/2, (height/2 + 40));
