@@ -31,7 +31,14 @@ public class Level
       // Based on the number of enemies per row, create an invader.
       for(int c = 0; c < columns; c++)
       {
-        Invaders[c][r] = new InvaderAssault(x, y, 35, 35, ySpeed);
+        if(random(1) >= 0.3)
+        {
+          Invaders[c][r] = new InvaderAssault(x, y, 35, 35, ySpeed);
+        }
+        else 
+        {
+          Invaders[c][r] = new InvaderSniper(x, y, 35, 35, ySpeed);
+        }
         x += 50;
       }
       

@@ -16,23 +16,18 @@ public class Player
   int timer = 0;
   
   // Executed when a new Player object is created.
-  Player(int x, int y, int pWidth, int pHeight)
+  Player(int x, int y, int pWidth, int pHeight, PImage sprites[])
   {
     this.x = x;
     this.y = y;
     this.pWidth = pWidth;
     this.pHeight = pHeight;
     
-    this.sprites = new PImage[5];
-    sprites[0] = loadImage("assets/images/player-1.png");
-    sprites[1] = loadImage("assets/images/player-2.png");
-    sprites[2] = loadImage("assets/images/player-3.png");
-    sprites[3] = loadImage("assets/images/player-4.png");
-    sprites[4] = loadImage("assets/images/player-5.png");
+    this.sprites = sprites;
     
-    for(int i = 0; i < sprites.length; i++)
+    for(int i = 0; i < this.sprites.length; i++)
     {
-      sprites[i].resize(pWidth, pHeight);
+      this.sprites[i].resize(pWidth, pHeight);
     }
     
     spritePointer = 0;

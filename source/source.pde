@@ -1,7 +1,6 @@
-/* 
-  Title: Assignment
-  Author: Joshua McEwen
-  Date: January 2017
+/** 
+*  Programming Assignment
+*  @author Joshua McEwen
 */
 
 // Declare variables.
@@ -9,6 +8,9 @@ PImage background;
 int firstBackgroundY, secondBackgroundY;
 PFont fontMono;
 Player player;
+PImage[] playerSprites;
+
+Invader splashInvader;
 
 final int SPLASH = 0;
 final int PLAYING = 1;
@@ -45,7 +47,14 @@ void setup()
   size(500, 500);
   resetBackground();
   
-  player = new Player(width/2, height - 50, 60, 60);
+  playerSprites = new PImage[5];
+  playerSprites[0] = loadImage("assets/images/player-1.png");
+  playerSprites[1] = loadImage("assets/images/player-2.png");
+  playerSprites[2] = loadImage("assets/images/player-3.png");
+  playerSprites[3] = loadImage("assets/images/player-4.png");
+  playerSprites[4] = loadImage("assets/images/player-5.png");
+  
+  player = new Player(width/2, height - 50, 60, 60, playerSprites);
   
   // Create levels for the game.
   // Level(rows, ySpeed)
@@ -152,6 +161,7 @@ void keyReleased()
 // Handles the splash screen mechanics.
 void splashScreen()
 { 
+  
   // Every 500ms, alter the splash screen font 'pulse' effect.
   if(timer % 30 == 0)
   {

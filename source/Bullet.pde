@@ -19,25 +19,36 @@ public class Bullet
     bulletSprite.resize(bWidth, bHeight);
   }
   
-  // Render the bullet on screen.
+  /**
+  *  Renders the bullet on screen by drawing the bullet sprite.
+  */
   private void render()
   {
     imageMode(CENTER);
     image(bulletSprite, this.x, this.y);
   }
   
-  // Change the position of the bullet based on its velocity.
+  /**
+  *  Moves the bullet along the Y axis by the amount - velocity.
+  */
   private void move()
   {
     y += velocity;
   }
   
+  /**
+  *  Returns the visibilty of the bullet on screen as a boolean.
+  *
+  *  @return    true/false whether the bullet is visible or not.
+  */
   public boolean isVisible()
   {
     return (y - (bHeight/2) > 0 && y + (bHeight/2) < height);
   }
   
-  // Call the move and render procedures, updating the bullet's position on screen.
+  /**
+  *  Calls the move and render procedures, updating the bullet on screen.
+  */
   public void update()
   {
     move();
