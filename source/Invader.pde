@@ -31,7 +31,7 @@ public class Invader
     this.iWidth = iWidth;
     this.iHeight = iHeight;
     this.ySpeed = ySpeed;
-    this.spritePointer = 0;
+    this.spritePointer = (int)random(5);
   }
   
   // Render the invader on screen.

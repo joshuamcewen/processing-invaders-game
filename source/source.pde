@@ -5,6 +5,7 @@
 
 // Declare variables.
 PImage background, deathImage, completeImage;
+
 int firstBackgroundY, secondBackgroundY;
 PFont fontMono;
 Player player;
@@ -194,7 +195,7 @@ void splashScreen()
   text("Sea Hawks", width/2, 100);
   
   textSize(15);
-  text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives. Use ← → ↑ ↓ to move.", width/2, height/2 - 75);
+  text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives. Use ← → ↑ ↓ to move.", width/2, height/2 - 85);
   
   fill(178, 255, 102);
   textSize(splashSize);
