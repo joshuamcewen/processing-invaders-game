@@ -36,7 +36,6 @@ public class Player
   // Render the player on screen.
   private void render()
   {
-    noStroke();
     imageMode(CENTER);
     image(sprites[spritePointer], this.x, this.y);
     

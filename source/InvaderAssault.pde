@@ -1,40 +1,35 @@
 // Invader with frequent fire.
 public class InvaderAssault extends Invader
 {
-  PImage current, assaultLeft, assaultRight;
   // Executed when a new InvaderAssault object is created.
   InvaderAssault(int x, int y, int iWidth, int iHeight, int ySpeed)
   {
     super(x, y, iWidth, iHeight, ySpeed);
     
-    assaultLeft = loadImage("assets/images/scuba-left.png");
-    assaultLeft.resize(iWidth, iHeight);
+    leftSprites = new PImage[5];
+    leftSprites[0] = loadImage("assets/images/assault-left1.png");
+    leftSprites[1] = loadImage("assets/images/assault-left2.png");
+    leftSprites[2] = loadImage("assets/images/assault-left3.png");
+    leftSprites[3] = loadImage("assets/images/assault-left4.png");
+    leftSprites[4] = loadImage("assets/images/assault-left5.png");
     
-    assaultRight = loadImage("assets/images/scuba-right.png");
-    assaultRight.resize(iWidth, iHeight);
-    
-    current = assaultLeft;
-  }
-  
-  @Override
-  protected void render()
-  {
-    imageMode(CENTER);
-    image(current, this.x, this.y);
-  }
-  
-  @Override
-  protected void move()
-  {
-    super.move();
-    switch(super.direction)
+    for(int i = 0; i < leftSprites.length; i++)
     {
-      case LEFT:
-        current = assaultLeft;
-        break;
-      case RIGHT:
-        current = assaultRight;
-        break;
+      leftSprites[i].resize(iWidth, iHeight);
     }
+    
+    rightSprites = new PImage[5];
+    rightSprites[0] = loadImage("assets/images/assault-right1.png");
+    rightSprites[1] = loadImage("assets/images/assault-right2.png");
+    rightSprites[2] = loadImage("assets/images/assault-right3.png");
+    rightSprites[3] = loadImage("assets/images/assault-right4.png");
+    rightSprites[4] = loadImage("assets/images/assault-right5.png");
+    
+    for(int i = 0; i < rightSprites.length; i++)
+    {
+      rightSprites[i].resize(iWidth, iHeight);
+    }
+    
+    current = leftSprites;
   }
 }

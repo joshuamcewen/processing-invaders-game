@@ -4,13 +4,13 @@
 */
 
 // Declare variables.
-PImage background;
+PImage background, deathImage, completeImage;
 int firstBackgroundY, secondBackgroundY;
 PFont fontMono;
 Player player;
 PImage[] playerSprites;
 
-Invader splashInvader;
+Invader keyAssault, keySniper;
 
 final int SPLASH = 0;
 final int PLAYING = 1;
@@ -47,6 +47,12 @@ void setup()
   size(500, 500);
   resetBackground();
   
+  deathImage = loadImage("/assets/images/explosion.png");
+  deathImage.resize(100, 100);
+  
+  completeImage = loadImage("assets/images/player-1.png");
+  completeImage.resize(100, 100);
+  
   playerSprites = new PImage[5];
   playerSprites[0] = loadImage("assets/images/player-1.png");
   playerSprites[1] = loadImage("assets/images/player-2.png");
@@ -55,6 +61,9 @@ void setup()
   playerSprites[4] = loadImage("assets/images/player-5.png");
   
   player = new Player(width/2, height - 50, 60, 60, playerSprites);
+  
+  keyAssault = new InvaderAssault(100, height/2 + 70, 50, 50, 0);
+  keySniper = new InvaderSniper(width - 150, height/2 + 70, 50, 50, 0);
   
   // Create levels for the game.
   // Level(rows, ySpeed)
@@ -177,13 +186,33 @@ void splashScreen()
   textAlign(CENTER);
   
   textSize(30);
-  text("Sea Hawks", width/2, 150);
+  text("Sea Hawks", width/2, 100);
   
   textSize(15);
-  text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives.", width/2, height/2);
+  text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives.", width/2, height/2 - 75);
   
+  fill(178, 255, 102);
   textSize(splashSize);
-  text("Press SPACE to begin", width/2, height/2 + 100);
+  text("Press SPACE to begin", width/2, height/2);
+  
+  keyAssault.update();
+  keySniper.update();
+  
+  fill(178, 255, 102);
+  textSize(splashSize);
+  text("Assault", 125, height/2 + 120);
+  
+  fill(255);
+  textSize(14);
+  text("Normal bullet speed.\n70% chance of spawning.", 125, height/2 + 140);
+  
+  fill(178, 255, 102);
+  textSize(splashSize);
+  text("Sniper", width - 125, height/2 + 120);
+  
+  fill(255);
+  textSize(14);
+  text("Treble (3x) bullet speed.\n30% chance of spawning.", width - 125, height/2 + 140);
 }
 
 // Handles the level screen mechanics.
@@ -232,13 +261,15 @@ void playScreen()
 
 // Handles the death screen mechanics.
 void deathScreen()
-{
-  fill(255);
-  textAlign(LEFT);
-  text("Died", 10, 20);
+{ 
+  imageMode(CENTER);
+  image(deathImage, width/2, 120);
   
-  textSize(20);
+  fill(255);
   textAlign(CENTER);
+  textSize(20);
+  
+  text("You died... Unlucky", width/2, height/2 - 40);
   text("Your score: " + player.returnScore(), width/2, height/2);
   
   textSize(14);
@@ -248,16 +279,18 @@ void deathScreen()
 // Handles the game completion screen mechanics.
 void completeScreen()
 {
-  fill(255);
-  textSize(14);
-  textAlign(LEFT);
-  text("Complete", 10, 20);
   
-  textSize(20);
+  imageMode(CENTER);
+  image(completeImage, width/2, 120);
+  
+  fill(255);
   textAlign(CENTER);
+  textSize(20);
+  
+  text("You completed the game!", width/2, height/2 - 40);
+  
   if(player.returnScore() > hiScore)
   {
-    textAlign(CENTER);
     text("New Hi-Score: " + hiScore, width/2, height/2);
     hiScore = player.returnScore();
   }

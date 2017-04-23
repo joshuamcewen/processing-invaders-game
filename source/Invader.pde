@@ -1,6 +1,8 @@
 // Default invader behaviour.
 public class Invader
 {
+  PImage[] leftSprites, rightSprites, current;
+  int spritePointer;
   // Declare and initialise local class variables.
   ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
   
@@ -29,13 +31,20 @@ public class Invader
     this.iWidth = iWidth;
     this.iHeight = iHeight;
     this.ySpeed = ySpeed;
+    this.spritePointer = 0;
   }
   
   // Render the invader on screen.
   protected void render()
   {
-    fill(0, 255, 0);
-    rect(x, y, iWidth, iHeight);
+    imageMode(CENTER);
+    image(current[spritePointer], this.x, this.y);
+    
+    // Every 10 frames...
+    if(timer % 10 == 0) 
+    {
+      spritePointer = (spritePointer < current.length - 2 ? spritePointer + 1 : 0);
+    }
   }
   
   // Change the position of the invader.
@@ -47,6 +56,7 @@ public class Invader
       if(x <= defaultX - 20)
       {
         direction = RIGHT;
+        current = rightSprites;
       }
     }
     else if(direction == RIGHT)
@@ -55,11 +65,12 @@ public class Invader
       if(x >= defaultX + 20)
       {
         direction = LEFT;
+        current = leftSprites;
       }
     }
     
     // Move downwards every X milliseconds depending on value of ySpeed set in the level class.
-    if(timer % ySpeed == 0)
+    if(ySpeed != 0 && timer % ySpeed == 0)
     {
       y += 50;
     }
