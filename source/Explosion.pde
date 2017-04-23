@@ -14,15 +14,14 @@ class Explosion {
     this.eWidth = eWidth;
     this.eHeight = eHeight;
     this.duration = duration;
-    
-    sprite = loadImage("assets/images/explosion.png");
-    sprite.resize(eWidth, eHeight);
+   
+    explosion.resize(eWidth, eHeight);
   }
   
   private void render()
   {
     imageMode(CENTER);
-    image(sprite, x, y);
+    image(explosion, x, y);
   }
   
   private void update()

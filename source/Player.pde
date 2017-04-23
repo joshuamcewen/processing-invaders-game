@@ -16,18 +16,16 @@ public class Player
   int timer = 0;
   
   // Executed when a new Player object is created.
-  Player(int x, int y, int pWidth, int pHeight, PImage sprites[])
+  Player(int x, int y, int pWidth, int pHeight)
   {
     this.x = x;
     this.y = y;
     this.pWidth = pWidth;
     this.pHeight = pHeight;
     
-    this.sprites = sprites;
-    
-    for(int i = 0; i < this.sprites.length; i++)
+    for(int i = 0; i < playerSprites.length; i++)
     {
-      this.sprites[i].resize(pWidth, pHeight);
+      playerSprites[i].resize(pWidth, pHeight);
     }
     
     spritePointer = 0;
@@ -37,12 +35,12 @@ public class Player
   private void render()
   {
     imageMode(CENTER);
-    image(sprites[spritePointer], this.x, this.y);
+    image(playerSprites[spritePointer], this.x, this.y);
     
     // Every 10 frames...
     if(timer % 10 == 0) 
     {
-      spritePointer = (spritePointer < sprites.length - 2 ? spritePointer + 1 : 0);
+      spritePointer = (spritePointer < playerSprites.length - 2 ? spritePointer + 1 : 0);
     }
   }
   

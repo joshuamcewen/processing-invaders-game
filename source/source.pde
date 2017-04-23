@@ -3,15 +3,19 @@
 *  @author Joshua McEwen
 */
 
-// Declare variables.
-PImage background, deathImage, completeImage;
+/** 
+*  Variable Declaration
+*  Players/Invaders
+*/
 
-int firstBackgroundY, secondBackgroundY;
-PFont fontMono;
 Player player;
-PImage[] playerSprites;
-
 Invader keyAssault, keySniper;
+
+PImage background, deathImage, completeImage, explosion, bulletUpSprite, bulletDownSprite;
+PImage[] playerSprites, assaultLeftSprites, assaultRightSprites, sniperLeftSprites, sniperRightSprites;
+
+
+/* Game states */
 
 final int SPLASH = 0;
 final int PLAYING = 1;
@@ -20,13 +24,18 @@ final int FINISH = 3;
 
 int state = SPLASH;
 
-boolean leftPressed, rightPressed;
 
-// Declare and initialise variables.
-int timer = 0;
+/* Splash screen and appearance */
+
+PFont fontMono;
+int firstBackgroundY, secondBackgroundY;
 int splashSize = 15;
 
+
+/* Levels and monitoring */
+
 ArrayList<Level> levels = new ArrayList<Level>();
+int timer = 0;
 
 // Keep track of the current level.
 Level currentLevel;
@@ -35,9 +44,13 @@ int levelPointer = 0;
 //Track hiscore.
 int hiScore = 0;
 
+boolean leftPressed, rightPressed;
+
+
 // Executed when the program is compiled.
 void setup()
 {
+  this.explosion = loadImage("assets/images/explosion.png");
   // Canvas configuration
   firstBackgroundY = 0;
   secondBackgroundY = -500;
@@ -54,14 +67,21 @@ void setup()
   completeImage = loadImage("assets/images/player-1.png");
   completeImage.resize(100, 100);
   
-  playerSprites = new PImage[5];
-  playerSprites[0] = loadImage("assets/images/player-1.png");
-  playerSprites[1] = loadImage("assets/images/player-2.png");
-  playerSprites[2] = loadImage("assets/images/player-3.png");
-  playerSprites[3] = loadImage("assets/images/player-4.png");
-  playerSprites[4] = loadImage("assets/images/player-5.png");
+  /* Load in all sprites */
   
-  player = new Player(width/2, height - 50, 60, 60, playerSprites);
+  bulletUpSprite = loadImage("assets/images/bullet-up.png");
+  bulletDownSprite = loadImage("assets/images/bullet-down.png");
+  
+  /* Load in all image assets once using the loadSprites method. */
+  playerSprites = loadSprites("player-", 5, 60, 60);
+  
+  assaultLeftSprites = loadSprites("assault-left", 5, 35, 35);
+  assaultRightSprites = loadSprites("assault-right", 5, 35, 35);
+  
+  sniperLeftSprites = loadSprites("sniper-left", 5, 35, 35);
+  sniperRightSprites = loadSprites("sniper-right", 5, 35, 35);
+
+  player = new Player(width/2, height - 50, 60, 60);
   
   keyAssault = new InvaderAssault(100, height/2 + 70, 50, 50, 0);
   keySniper = new InvaderSniper(width - 150, height/2 + 70, 50, 50, 0);
@@ -319,6 +339,28 @@ void completeScreen()
   
   textSize(14);
   text("Press 'C' to go back to the splash screen.", width/2, (height/2 + 40));
+}
+
+/**
+*  Returns an array of resized sprites.
+*
+*  @param   name      The name of image sprite prefixing sequence number.
+*  @param   number    The number of sprites that are to be loaded.
+*  @param   newWidth  The new width of the sprites.
+*  @param   newHeight The new height of the sprites.
+*  @return           PImage array of sprites. 
+*/
+PImage[] loadSprites(String name, int number, int newWidth, int newHeight)
+{
+  PImage[] sprites = new PImage[number];
+  
+  for(int i = 0; i < number; i++)
+  {
+    sprites[i] = loadImage("/assets/images/" + name + number + ".png");
+    sprites[i].resize(newWidth, newHeight);
+  }
+  
+  return sprites;
 }
 
 // Resets the background, removing old positioning.
