@@ -24,7 +24,6 @@ final int FINISH = 3;
 
 int state = SPLASH;
 
-
 /* Splash screen and appearance */
 
 PFont fontMono;
@@ -61,7 +60,7 @@ void setup()
   size(500, 500);
   resetBackground();
   
-  deathImage = loadImage("/assets/images/explosion.png");
+  deathImage = loadImage("assets/images/explosion.png");
   deathImage.resize(100, 100);
   
   completeImage = loadImage("assets/images/player-1.png");
@@ -356,7 +355,7 @@ PImage[] loadSprites(String name, int number, int newWidth, int newHeight)
   
   for(int i = 0; i < number; i++)
   {
-    sprites[i] = loadImage("/assets/images/" + name + number + ".png");
+    sprites[i] = loadImage("assets/images/" + name + (i + 1) + ".png");
     sprites[i].resize(newWidth, newHeight);
   }
   
