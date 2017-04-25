@@ -4,7 +4,7 @@ public class Invader
   PImage[] leftSprites, rightSprites, currentSprites;
   int spritePointer;
   // Declare and initialise local class variables.
-  ArrayList<Bullet> Bullets = new ArrayList<Bullet>();
+  ArrayList<Bullet> bullets = new ArrayList<Bullet>();
   
   // On death
   Explosion deathExplosion;
@@ -23,7 +23,9 @@ public class Invader
   
   boolean visible = true;
   
-  // Executed when a new Invader object is created.
+  /*
+  *  Constructor executed when new instance of Invader is created.
+  */
   Invader(int x, int y, int iWidth, int iHeight, int ySpeed)
   {
     this.x = defaultX = x;
@@ -31,23 +33,31 @@ public class Invader
     this.iWidth = iWidth;
     this.iHeight = iHeight;
     this.ySpeed = ySpeed;
+    
+    // Start with a random spritePointer value to differentiate the animations.
     this.spritePointer = (int)random(5);
   }
   
-  // Render the invader on screen.
+  /*
+  *  Renders the invader sprite on screen, updating frames using the spritePointer.
+  */
   protected void render()
   {
     imageMode(CENTER);
+    // Uses the spritePointer to determine which asset to use.
     image(currentSprites[spritePointer], this.x, this.y);
     
-    // Every 10 frames...
+    // Every 10 frames increment the sprite pointer or reset it to 0.
     if(timer % 10 == 0) 
     {
       spritePointer = (spritePointer < currentSprites.length - 2 ? spritePointer + 1 : 0);
     }
   }
   
-  // Change the position of the invader.
+  /*
+  *  Changes the position of the invader both, X and Y and updates the sprite set used based
+  *  on this.
+  */
   protected void move()
   {
     if(direction == LEFT)
@@ -76,22 +86,27 @@ public class Invader
     }
   }
   
-  // Create a new bullet instance.
+  /*
+  *  Fires a bullet (new bullet instance) from the current position of the invader/jet.
+  */
   public void shoot()
   {
-      Bullets.add(new Bullet(x, y + (iHeight/2), 15, 15, 5));
+      bullets.add(new Bullet(x, y + (iHeight/2), 15, 15, 5));
   }
   
+  /*
+  *  Updates each bullet instance for the corresponding invader and removes based on visibility.
+  */
   private void updateBullets()
   {
-    for(int i = Bullets.size() - 1; i >= 0; i--)
+    for(int i = bullets.size() - 1; i >= 0; i--)
     {
-      Bullet b = Bullets.get(i);
+      Bullet b = bullets.get(i);
       
       if(b.y >= (player.returnPosY() - (player.returnHeight()/2)) && b.y <= (player.returnPosY() + (player.returnHeight()/2)) && b.x >= (player.returnPosX() - (player.returnWidth()/2)) && b.x <= (player.returnPosX() + (player.returnWidth()/2)))
       {
         player.decrementLives();
-        Bullets.remove(i);
+        bullets.remove(i);
       }
       if(b.isVisible())
       {
@@ -99,22 +114,34 @@ public class Invader
       }
       else
       {
-        Bullets.remove(i);
+        bullets.remove(i);
       }
     }
   }
   
+  /*
+  *  Creates a new instance of explosion in the position of the invader. 
+  */
   public void explode()
   {
     explosionVisible = true;
     deathExplosion = new Explosion(x, y, iWidth, iHeight, 20);
   }
   
+  /*
+  *  Returns the visibility of the invader.
+  *
+  *  @return    true/false whether the invader is visible or not.
+  */
   public boolean isVisible()
   {
     return visible;
   }
   
+  
+  /*
+  *  Set the visibility of the invader.
+  */
   public void setVisible(boolean visible)
   {
     this.visible = visible;
@@ -143,6 +170,10 @@ public class Invader
     
     updateBullets();
   }
+  
+  /*
+  *  Functions to return the various attributes of an invader object.
+  */
   
   public int returnPosX()
   {

@@ -1,3 +1,4 @@
+// Class to handle death animations/events.
 class Explosion {
   
   PImage sprite;
@@ -7,6 +8,9 @@ class Explosion {
   // Local timer to display explosion for limited time.
   int timer = 0;
   
+  /*
+  *  Constructor executed when new instance of Explosion is created.
+  */
   Explosion(int x, int y, int eWidth, int eHeight, int duration) 
   {
     this.x = x;

@@ -2,23 +2,27 @@
 public class Level
 {
   // Declare and initialise local class variables.
-  Invader[][] Invaders;
+  Invader[][] invaders;
   
   int rows, ySpeed;
   int columns = 8;
-  boolean Rendered = false;
+  boolean rendered = false;
   
-  // Executed when a new Levels object is created.
+  /*
+  *  Constructor executed when new instance of Level is created.
+  */
   Level(int rows, int ySpeed)
   {
     this.rows = rows;
     this.ySpeed = ySpeed;
-    Invaders = new Invader[columns][rows];
+    invaders = new Invader[columns][rows];
     
     spawnInvaders();
   }
   
-  // Procedure to populate Invaders ArrayList.
+  /*
+  *  Populate the invaders array using 2D arrays.
+  */
   public void spawnInvaders()
   {
     // Set initial values for the X and Y positions of the invaders.
@@ -33,11 +37,11 @@ public class Level
       {
         if(random(1) >= 0.3)
         {
-          Invaders[c][r] = new InvaderAssault(x, y, 35, 35, ySpeed);
+          invaders[c][r] = new InvaderAssault(x, y, 35, 35, ySpeed);
         }
         else 
         {
-          Invaders[c][r] = new InvaderSniper(x, y, 35, 35, ySpeed);
+          invaders[c][r] = new InvaderSniper(x, y, 35, 35, ySpeed);
         }
         x += 50;
       }
@@ -47,33 +51,47 @@ public class Level
     }
   }
   
-  public void reset()
-  {
-    // Maybe add some other reset behaviour...
-    this.spawnInvaders();
-  }
-  
+  /*
+  *  Returns the render state of the level.
+  *
+  *  @return    true/false whether the level is rendered or not.
+  */
   public boolean returnRendered()
   {
-    return Rendered;
+    return rendered;
   }
   
+  /*
+  *  Changes the render state of the level.
+  */
   public void changeState()
   {
-    Rendered = (Rendered ? false : true);
+    rendered = (rendered ? false : true);
   }
   
+  /*
+  *  Return the 2D array of invader objects for this level.
+  */
   public Invader[][] returnInvaders()
   {
-    return Invaders;
+    return invaders;
   }
   
-  public void setInvaders(Invader[][] Invaders)
+  /*
+  *  Sets the 2D array of invader objects for this level.
+  */
+  public void setInvaders(Invader[][] invaders)
   {
-    this.Invaders = Invaders;
+    this.invaders = invaders;
   }
   
-  // Check if the level has been completed and return a t/f value.
+  
+  /*
+  *  Checks whether or not the level has been completed. If so,
+  *  return true.
+  *
+  *  @return    true/false whether the level is complete or not.
+  */
   public boolean isComplete()
   { 
     for(int r = 0; r < rows; r++)
@@ -81,7 +99,7 @@ public class Level
       // Based on the number of enemies per row, create an invader.
       for(int c = 0; c < columns; c++)
       {
-        if(Invaders[c][r].isVisible())
+        if(invaders[c][r].isVisible())
         {
           return false;
         }
@@ -90,15 +108,18 @@ public class Level
     return true;
   }
   
+  /*
+  *  Checks for collisions and updates bullet/invader objects accordingly.
+  */
   private void checkCollisions()
   {
     // Retrieve the player's bullets
-    ArrayList<Bullet> Bullets = player.returnBullets();
+    ArrayList<Bullet> bullets = player.returnBullets();
     
     // For each bullet...
-    for(int i = Bullets.size() - 1; i >= 0; i--)
+    for(int i = bullets.size() - 1; i >= 0; i--)
     {
-      Bullet b = Bullets.get(i);
+      Bullet b = bullets.get(i);
       
       // Check each individual invader to see if a collision has occurred with this bullet instance
       for(int r = 0; r < rows; r++)
@@ -107,11 +128,11 @@ public class Level
         {
           // If the invader is visible and the bullet is within its boundaries, hide the invader (dead) and remove the bullet.
           // Also increment the score.
-          if(Invaders[c][r].isVisible() && b.y >= (Invaders[c][r].returnPosY() - (Invaders[c][r].returnHeight()/2)) && b.y <= (Invaders[c][r].returnPosY() + (Invaders[c][r].returnHeight()/2)) && b.x >= (Invaders[c][r].returnPosX() - (Invaders[c][r].returnWidth()/2)) && b.x <= (Invaders[c][r].returnPosX() + (Invaders[c][r].returnWidth()/2)))
+          if(invaders[c][r].isVisible() && b.y >= (invaders[c][r].returnPosY() - (invaders[c][r].returnHeight()/2)) && b.y <= (invaders[c][r].returnPosY() + (invaders[c][r].returnHeight()/2)) && b.x >= (invaders[c][r].returnPosX() - (invaders[c][r].returnWidth()/2)) && b.x <= (invaders[c][r].returnPosX() + (invaders[c][r].returnWidth()/2)))
           {
-            Invaders[c][r].setVisible(false);
-            Invaders[c][r].explode();
-            Bullets.remove(i);
+            invaders[c][r].setVisible(false);
+            invaders[c][r].explode();
+            bullets.remove(i);
             player.incrementScore();
           }
         }
@@ -119,22 +140,25 @@ public class Level
     }
   }
   
+  /*
+  *  Updates all invader objects for the level.
+  */
   public void update()
   { 
+    // Check for collissions.
+    checkCollisions();
+    
     // Call the update method for each individual Invader.
     for(int r = 0; r < rows; r++)
     {
       for(int c = 0; c < columns; c++)
       {
-        Invaders[c][r].update();
-        if(Invaders[c][r].returnPosY() >= height - 50)
+        invaders[c][r].update();
+        if(invaders[c][r].returnPosY() >= height - 50)
         {
           state = DEAD;
         }
       }
     }
-    
-    // Update Invaders after collision detection method called
-    checkCollisions();
   }
 }

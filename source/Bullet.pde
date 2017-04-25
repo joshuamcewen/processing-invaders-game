@@ -6,7 +6,9 @@ public class Bullet
   int x, y, bWidth, bHeight;
   float velocity;
   
-  // Executed when a new Bullet object is created.
+  /*
+  *  Constructor executed when new instance of Bullet is created.
+  */
   Bullet(int x, int y, int bWidth, int bHeight, float velocity)
   {
     this.x = x;

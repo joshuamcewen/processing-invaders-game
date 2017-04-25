@@ -1,9 +1,9 @@
-/** 
+/* 
 *  Programming Assignment
 *  @author Joshua McEwen
 */
 
-/** 
+/* 
 *  Variable Declaration
 *  Players/Invaders
 */
@@ -15,7 +15,7 @@ PImage background, deathImage, completeImage, explosion, bulletUpSprite, bulletD
 PImage[] playerSprites, assaultLeftSprites, assaultRightSprites, sniperLeftSprites, sniperRightSprites;
 
 
-/* Game states */
+// Game states 
 
 final int SPLASH = 0;
 final int PLAYING = 1;
@@ -24,41 +24,43 @@ final int FINISH = 3;
 
 int state = SPLASH;
 
-/* Splash screen and appearance */
+// Splash screen and appearance 
 
 PFont fontMono;
 int firstBackgroundY, secondBackgroundY;
 int splashSize = 15;
 
 
-/* Levels and monitoring */
+// Levels and monitoring 
 
 ArrayList<Level> levels = new ArrayList<Level>();
 int timer = 0;
 
-// Keep track of the current level.
+// Keep track of the current level. 
 Level currentLevel;
 int levelPointer = 0;
 
-//Track hiscore.
+// Track hiscore. 
 int hiScore = 0;
 
 boolean leftPressed, rightPressed;
 
 
-// Executed when the program is compiled.
+/*
+*  Setup on program compilation.
+*/
 void setup()
 {
-  this.explosion = loadImage("assets/images/explosion.png");
-  // Canvas configuration
-  firstBackgroundY = 0;
-  secondBackgroundY = -500;
-  background = loadImage("assets/images/background.png");
-  fontMono = createFont("assets/fonts/mono.ttf", 30);
-  textFont(fontMono);
+  // Canvas configuration 
   
   size(500, 500);
-  resetBackground();
+  
+  firstBackgroundY = 0;
+  secondBackgroundY = -500;
+  
+  // Load in font assets 
+  fontMono = createFont("assets/fonts/mono.ttf", 30);
+  textFont(fontMono);
   
   deathImage = loadImage("assets/images/explosion.png");
   deathImage.resize(100, 100);
@@ -66,12 +68,19 @@ void setup()
   completeImage = loadImage("assets/images/player-1.png");
   completeImage.resize(100, 100);
   
-  /* Load in all sprites */
+  // Load in all sprites 
   
   bulletUpSprite = loadImage("assets/images/bullet-up.png");
   bulletDownSprite = loadImage("assets/images/bullet-down.png");
+  background = loadImage("assets/images/background.png");
+  explosion = loadImage("assets/images/explosion.png");
   
-  /* Load in all image assets once using the loadSprites method. */
+  // Initially display the background images.
+  resetBackground();
+  
+  // Load in all sprite assets once using the loadSprites method. 
+  // Multiple sprites loaded in and returned as an array.
+  
   playerSprites = loadSprites("player-", 5, 60, 60);
   
   assaultLeftSprites = loadSprites("assault-left", 5, 35, 35);
@@ -79,26 +88,35 @@ void setup()
   
   sniperLeftSprites = loadSprites("sniper-left", 5, 35, 35);
   sniperRightSprites = loadSprites("sniper-right", 5, 35, 35);
-
+  
+  
+  
+  // Create instances of the player and invaders. Invaders will act
+  // as items for a key on the splash screen.
+  
   player = new Player(width/2, height - 50, 60, 60);
   
   keyAssault = new InvaderAssault(100, height/2 + 70, 50, 50, 0);
   keySniper = new InvaderSniper(width - 150, height/2 + 70, 50, 50, 0);
   
-  // Create levels for the game.
+   
+  // Create level objects for the game.
   // Level(rows, ySpeed)
+  
   levels.add(new Level(2, 360));
   levels.add(new Level(3, 180));
   levels.add(new Level(4, 150));
   levels.add(new Level(4, 100));
 }
 
-// Executed 60 times per second.
 void draw()
 {
+  // Increment the timer and update the background.
   timer++;
   resetBackground();
   
+  // Depending on the state of the game, switch between the different
+  // screen methods. Defaults to the splash screen.
   switch(state)
   {
     case SPLASH:
@@ -118,9 +136,13 @@ void draw()
   }
 }
 
-// Handle key press events.
+/*
+*  Handles key press events.
+*/
 void keyPressed()
 {
+  // Depending on the state of the game, allow different keys to trigger
+  // methods and events.
   switch(state)
   {
     case SPLASH:
@@ -132,6 +154,8 @@ void keyPressed()
       }
       break;
     case PLAYING:
+      // When playing, arrow key pressed are monitored by booleans for 
+      // smooth movement.
       if(key == CODED)
       {
         if(keyCode == LEFT)
@@ -150,7 +174,8 @@ void keyPressed()
         player.shoot();
       }
       
-      // Return to splash screen.
+      // Return to splash screen and reset key variables if the 'm'
+      // menu key is pressed.
       if(key == 'm')
       {
         resetGame();
@@ -158,6 +183,7 @@ void keyPressed()
       break;
     case DEAD:
     case FINISH:
+      // In the case of completion/death, c will also trigger a game reset.
       if(key == 'c' || key == 'C')
       {
         resetGame();
@@ -166,12 +192,16 @@ void keyPressed()
   }
 }
 
-// Handle key release events.
+/*
+*  Handles key release events.
+*/
 void keyReleased()
 {
   switch(state)
   {
     case PLAYING:
+      // Arrow key presses determine the value of booleans used to track
+      // the presses.
       if(key == CODED)
       {
         if(keyCode == LEFT)
@@ -187,7 +217,9 @@ void keyReleased()
   }
 }
 
-// Handles the splash screen mechanics.
+/*
+*  Handles the splash screen mechanics.
+*/
 void splashScreen()
 { 
   
@@ -203,16 +235,19 @@ void splashScreen()
     }
   }
   
+  // Display hiScore
   textAlign(LEFT);
   fill(255, 255, 102);
   textSize(splashSize);
   text("HiScore: " + hiScore, 15, 30);
   
+  // Display title
   textAlign(CENTER);
   fill(255);
   textSize(30);
   text("Sea Hawks", width/2, 100);
   
+  // Display instructions
   textSize(15);
   text("Press SPACE while in game to fire at the enemies.\n Clear each screen to progress to the next level.\n You have 5 lives. Use ← → ↑ ↓ to move.", width/2, height/2 - 85);
   
@@ -220,6 +255,7 @@ void splashScreen()
   textSize(splashSize);
   text("Press SPACE to begin", width/2, height/2);
   
+  // Display enemy key (invader objects and text)
   keyAssault.update();
   keySniper.update();
   
@@ -240,7 +276,9 @@ void splashScreen()
   text("Treble (3x) bullet speed.\n30% chance of spawning.", width - 125, height/2 + 140);
 }
 
-// Handles the level screen mechanics.
+/*
+*  Handles the level screen mechanics.
+*/
 void playScreen()
 {
   fill(255);
@@ -252,13 +290,17 @@ void playScreen()
   textAlign(CENTER);
   text("Score: " + player.returnScore(), width/2, 20);
   
-  // Display hiscore.
+  // Display hiScore.
   textAlign(CENTER);
   text("HiScore: " + hiScore, width/2, 40);
   
   // Display player lives.
   textAlign(RIGHT);
   text("Lives: " + player.returnLives(), width - 10, 20);
+  
+  // Display menu prompt
+  textAlign(LEFT);
+  text("'m' = quit", 20, height - 10);
   
   // Is the player dead?
   if(player.returnLives() <= 0)
@@ -286,6 +328,11 @@ void playScreen()
   player.update();
 }
 
+/*
+*  Set a new hiScore if applicable.
+*
+*  @param   playerScore  The achieved score of the player from the current game.
+*/
 void setHiscore(int playerScore)
 {
   if(playerScore > hiScore)
@@ -294,7 +341,9 @@ void setHiscore(int playerScore)
   }
 }
 
-// Handles the death screen mechanics.
+/*
+*  Handles the death screen mechanics.
+*/
 void deathScreen()
 { 
   
@@ -340,15 +389,16 @@ void completeScreen()
   text("Press 'C' to go back to the splash screen.", width/2, (height/2 + 40));
 }
 
-/**
+/*
 *  Returns an array of resized sprites.
 *
 *  @param   name      The name of image sprite prefixing sequence number.
 *  @param   number    The number of sprites that are to be loaded.
 *  @param   newWidth  The new width of the sprites.
 *  @param   newHeight The new height of the sprites.
-*  @return           PImage array of sprites. 
+*  @return            PImage array of sprites. 
 */
+
 PImage[] loadSprites(String name, int number, int newWidth, int newHeight)
 {
   PImage[] sprites = new PImage[number];
@@ -362,7 +412,9 @@ PImage[] loadSprites(String name, int number, int newWidth, int newHeight)
   return sprites;
 }
 
-// Resets the background, removing old positioning.
+/*
+*  Clears the background and positions the images accordingly, updating when called.
+*/
 void resetBackground()
 {
   clear();
@@ -374,6 +426,10 @@ void resetBackground()
   secondBackgroundY = (secondBackgroundY < 0 ? secondBackgroundY + 1 : -500);
 }
 
+/*
+*  Resets key game variables such as the player's lives, key presses and level
+*  mechanics.
+*/
 void resetGame()
 {
   // Reset the player's score and lives.
@@ -383,7 +439,7 @@ void resetGame()
   // Reset the state of each level.
   for(Level l : levels)
   {
-    l.reset();
+    l.spawnInvaders();
   }
  
   // Set the level pointer to 0.
