@@ -274,6 +274,10 @@ void splashScreen()
   fill(255);
   textSize(14);
   text("Treble (3x) bullet speed.\n30% chance of spawning.", width - 125, height/2 + 140);
+  
+  textSize(12);
+  textAlign(LEFT);
+  text("2017 Joshua McEwen", 20, height - 10);
 }
 
 /*
@@ -281,6 +285,7 @@ void splashScreen()
 */
 void playScreen()
 {
+  textSize(14);
   fill(255);
   // Display level name.
   textAlign(LEFT);
@@ -363,7 +368,7 @@ void deathScreen()
   text("Your score: " + player.returnScore(), width/2, height/2);
   
   textSize(14);
-  text("Press 'C' to go back to the splash screen.", width/2, (height/2 + 40));
+  text("Press 'c' to go back to the splash screen.", width/2, (height/2 + 40));
 }
 
 // Handles the game completion screen mechanics.
